@@ -7,7 +7,10 @@ use Core\Request;
 
 class HomeController
 {
-    public function getHome(Request $request, $category, $id){
-        return $id;
+    public function home(){
+        return [
+            "route" => "/",
+            "method" => "home"
+        ];
     }
 }

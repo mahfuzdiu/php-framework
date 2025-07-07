@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\HomeController;
+use App\Controllers\ProductController;
 
-$this->route->get("framework/home/image/{category}/{id}/books", [HomeController::class, "getHome"]);
-//$this->route->post("framework/home/image/{category}/{id}", [HomeController::class, "postHome"]);
+$this->router->get("php-framework/", [HomeController::class, "home"]);
+$this->router->get("php-framework/product/{id}", [ProductController::class, "getProduct"]);

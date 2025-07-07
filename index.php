@@ -3,5 +3,6 @@ require 'vendor/autoload.php';
 
 use Core\Application;
 
-$application = new Application(new \Core\Route(new \Core\Response()));
+$container = new DI\Container();
+$application = new Application($container);
 $application->boot();

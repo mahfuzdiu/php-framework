@@ -1,17 +1,19 @@
 <?php
 namespace Core;
 
-class Route extends Request
+use DI\Container;
+
+class Router extends Request
 {
-    private Response $response;
+    private Container $container;
     private array $allowedHttpMethods = ["get", "post", "put", "delete"];
     private string $uri;
     private array $params;
     private array $queryParams;
 
-    public function __construct(Response $response)
+    public function __construct(Container $container)
     {
-        $this->response = $response;
+        $this->container = $container;
         $this->uri = $_SERVER["REQUEST_URI"];
     }
 
@@ -33,9 +35,12 @@ class Route extends Request
 
         $method = $reflection->getMethod($methodName);
         $parameters = $method->getParameters();
-        $request = $this->processRouteParameters($methodName, $route);
-        $result = call_user_func_array([$reflection->newInstance(), $methodName], $this->resolveMethodArguments($parameters, $request));
-        echo $this->response->jsonResponse($result);
+        $matchedRequest = $this->processRouteParameters($methodName, $route);
+
+        if(!is_null($matchedRequest)){
+            $result = call_user_func_array([$reflection->newInstance(), $methodName], $this->resolveMethodArguments($parameters, $matchedRequest));
+            echo json_encode($result);
+        }
     }
 
     private function resolveMethodArguments($parameters, $request): array
@@ -44,8 +49,17 @@ class Route extends Request
         $normalParamIndexMatcher = 0;
 
         foreach ($parameters as $parameter){
-            if ($parameter->getType() && $parameter->getType()->getName() === Request::class){
-                $orderedParams[] = $request;
+            $type = $parameter->getType();
+
+            if (
+                $type instanceof \ReflectionNamedType &&
+                !$type->isBuiltin() &&
+                (class_exists($type->getName()) || interface_exists($type->getName()))
+            ){
+                if($type->getName() === Request::class){
+                    $orderedParams[] = $request;
+                } else
+                    $orderedParams[] = $this->container->get($type->getName());
             } else {
                 $orderedParams[] = $this->getParam($normalParamIndexMatcher);
                 $normalParamIndexMatcher++;
@@ -56,7 +70,7 @@ class Route extends Request
     }
 
 
-    private function processRouteParameters($methodName, $route): Request
+    private function processRouteParameters($methodName, $route): ?Request
     {
         $url = parse_url($this->uri, PHP_URL_PATH);
         $query = parse_url($this->uri, PHP_URL_QUERY);
@@ -65,19 +79,19 @@ class Route extends Request
         $urlParts = explode("/", trim($url, "/"));
         parse_str($query, $queryParts);
 
-        if(count($routeParts) != count($urlParts)){
-            throw new \Exception("Route not found", 404);
-        }
-
-        $params = [];
-        foreach ($routeParts as $key => $param){
-            if(preg_match("/^{([a-zA-Z]+)}$/", $param, $matches)){
-                $params[] = $urlParts[$key];
+        if(count($routeParts) == count($urlParts)){
+            $params = [];
+            foreach ($routeParts as $key => $param){
+                if(preg_match("/^{([a-zA-Z]+)}$/", $param, $matches)){
+                    $params[] = $urlParts[$key];
+                }
             }
+
+            $this->setParam($params);
+            return Request::setRequestData($params, $queryParts);
         }
 
-        $this->setParam($params);
-        return Request::setRequestData($params, $queryParts);
+        return null;
     }
 
     private function getParam($index): string

@@ -1,18 +1,21 @@
 <?php
 namespace Core;
 
+use DI\Container;
+
 class Application
 {
-    private Route $route;
+    private Container $container;
+    private Router $router;
 
-    public function __construct(Route $route){
-        $this->route = $route;
-        $this->loadRoutes();
+    public function __construct(Container $container){
+        $this->container = $container;
     }
 
-    function boot(): void
+    public function boot(): void
     {
-
+        $this->router = new Router($this->container);
+        $this->loadRoutes();
     }
 
     private function loadRoutes(){
