@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+
+    RewriteEngine On
+    RewriteBase /framework/
+
+    # Redirect index.php requests to root
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s(.*)/index\.php [NC]
+    RewriteRule ^index\.php$ %1/ [R=301,L]
+
+    # If the requested file or directory does not exist,
+    # send it to index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>
