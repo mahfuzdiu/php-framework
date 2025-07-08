@@ -5,14 +5,8 @@ use DI\Container;
 
 class Router
 {
-    private array $allowedHttpMethods = ["get", "post", "put", "delete"];
-    private string $uri;
-    private array $params;
-
-    public function __construct(private Container $container)
-    {
-        $this->uri = $_SERVER["REQUEST_URI"];
-    }
+    private array $allowedHttpMethods = ["get", "post", "put", "patch", "delete"];
+    private $routes;
 
     public function __call(string $routerMethod, array $arguments)
     {
@@ -20,83 +14,44 @@ class Router
             throw new \Exception($routerMethod . " is not allowed in route");
         }
 
-        $route = $arguments[0];
-        $controller = $arguments[1][0];
-        $controllerMethod = $arguments[1][1];
-
-        $reflection  = new \ReflectionClass($controller);
-        if(!$reflection->isInstantiable() || !$reflection->hasMethod($controllerMethod)){
-            throw new \Exception("Controller or method is not available");
-        }
-
-        $reflectionMethod = $reflection->getMethod($controllerMethod);
-        $reflectionMethodParameters = $reflectionMethod->getParameters();
-        $matchedRequest = $this->getMatchedRequest($route);
-
-        if(!is_null($matchedRequest)){
-            $result = call_user_func_array([$reflection->newInstance(), $controllerMethod], $this->resolveMethodArguments($reflectionMethodParameters, $matchedRequest));
-            echo json_encode($result);
-        }
+        $this->routes[] = [
+            "http_method" => $routerMethod,
+            "path" => $arguments[0],
+            "controller" => $arguments[1][0],
+            "controller_method" => $arguments[1][1],
+        ];
     }
 
-    private function resolveMethodArguments($parameters, $request): array
+    public function getMatchedRoute(string $uri): ?array
     {
-        $orderedParams = [];
-        $normalParamIndexMatcher = 0;
+        foreach ($this->routes as $route){
+            $url = parse_url($uri, PHP_URL_PATH);
+            $query = parse_url($uri, PHP_URL_QUERY);
 
-        foreach ($parameters as $parameter){
-            $type = $parameter->getType();
+            $urlParts = explode("/", trim($url, "/"));
+            parse_str($query, $queryParams);
 
-            if (
-                $type instanceof \ReflectionNamedType &&
-                !$type->isBuiltin() &&
-                (class_exists($type->getName()) || interface_exists($type->getName()))
-            ){
-                if($type->getName() === Request::class){
-                    $orderedParams[] = $request;
-                } else
-                    $orderedParams[] = $this->container->get($type->getName());
-            } else {
-                $orderedParams[] = $this->getParam($normalParamIndexMatcher);
-                $normalParamIndexMatcher++;
-            }
-        }
-
-        return $orderedParams;
-    }
+            $routeParts = explode("/", trim($route["path"], "/"));
 
 
-    private function getMatchedRequest($route): ?Request
-    {
-        $url = parse_url($this->uri, PHP_URL_PATH);
-        $query = parse_url($this->uri, PHP_URL_QUERY);
-
-        $routeParts = explode("/", trim($route, "/"));
-        $urlParts = explode("/", trim($url, "/"));
-        parse_str($query, $queryParts);
-
-        if(count($routeParts) == count($urlParts)){
-            $params = [];
-            foreach ($routeParts as $key => $param){
-                if(preg_match("/^{([a-zA-Z]+)}$/", $param, $matches)){
-                    $params[] = $urlParts[$key];
+            //basic match
+            //todo: update to strong route matching validation. 1.same count but two different route
+            if(count($routeParts) == count($urlParts)){
+                $params = [];
+                foreach ($routeParts as $key => $param){
+                    if(preg_match("/^{([a-zA-Z]+)}$/", $param, $matches)){
+                        $params[$matches[1]] = $urlParts[$key];
+                    }
                 }
-            }
 
-            $this->setParam($params);
-            return Request::setRequestData($params, $queryParts);
+                $route["params"] = $params;
+                $route["query_params"] = $queryParams;
+                return $route;
+            }
         }
 
         return null;
     }
 
-    private function getParam($index): string
-    {
-        return $this->params[$index];
-    }
 
-    private function setParam($params): void
-    {
-        $this->params = $params;
-    }
 }

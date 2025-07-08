@@ -13,4 +13,8 @@ class HomeController
             "method" => "home"
         ];
     }
+
+    public function getPrice(){
+        return 100;
+    }
 }
