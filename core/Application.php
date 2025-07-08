@@ -5,16 +5,14 @@ use DI\Container;
 
 class Application
 {
-    private Container $container;
     private Router $router;
 
-    public function __construct(Container $container){
-        $this->container = $container;
+    public function __construct(private Container $container){
     }
 
     public function boot(): void
     {
-        $this->router = new Router($this->container);
+        $this->router = $this->container->get(Router::class);
         $this->loadRoutes();
     }
 

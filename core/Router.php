@@ -3,42 +3,38 @@ namespace Core;
 
 use DI\Container;
 
-class Router extends Request
+class Router
 {
-    private Container $container;
     private array $allowedHttpMethods = ["get", "post", "put", "delete"];
     private string $uri;
     private array $params;
-    private array $queryParams;
 
-    public function __construct(Container $container)
+    public function __construct(private Container $container)
     {
-        $this->container = $container;
         $this->uri = $_SERVER["REQUEST_URI"];
     }
 
-    public function __call(string $methodName, array $arguments)
+    public function __call(string $routerMethod, array $arguments)
     {
-        if(!in_array($methodName, $this->allowedHttpMethods)){
-            throw new \Exception($methodName . " is not allowed in route");
+        if(!in_array($routerMethod, $this->allowedHttpMethods)){
+            throw new \Exception($routerMethod . " is not allowed in route");
         }
 
         $route = $arguments[0];
         $controller = $arguments[1][0];
-        $methodName = $arguments[1][1];
+        $controllerMethod = $arguments[1][1];
 
         $reflection  = new \ReflectionClass($controller);
-
-        if(!$reflection->isInstantiable() || !$reflection->hasMethod($methodName)){
+        if(!$reflection->isInstantiable() || !$reflection->hasMethod($controllerMethod)){
             throw new \Exception("Controller or method is not available");
         }
 
-        $method = $reflection->getMethod($methodName);
-        $parameters = $method->getParameters();
-        $matchedRequest = $this->processRouteParameters($methodName, $route);
+        $reflectionMethod = $reflection->getMethod($controllerMethod);
+        $reflectionMethodParameters = $reflectionMethod->getParameters();
+        $matchedRequest = $this->getMatchedRequest($route);
 
         if(!is_null($matchedRequest)){
-            $result = call_user_func_array([$reflection->newInstance(), $methodName], $this->resolveMethodArguments($parameters, $matchedRequest));
+            $result = call_user_func_array([$reflection->newInstance(), $controllerMethod], $this->resolveMethodArguments($reflectionMethodParameters, $matchedRequest));
             echo json_encode($result);
         }
     }
@@ -70,7 +66,7 @@ class Router extends Request
     }
 
 
-    private function processRouteParameters($methodName, $route): ?Request
+    private function getMatchedRequest($route): ?Request
     {
         $url = parse_url($this->uri, PHP_URL_PATH);
         $query = parse_url($this->uri, PHP_URL_QUERY);
@@ -102,10 +98,5 @@ class Router extends Request
     private function setParam($params): void
     {
         $this->params = $params;
-    }
-
-    private function setQueryParams($queryParts): void
-    {
-        $this->queryParams = $queryParts;
     }
 }
