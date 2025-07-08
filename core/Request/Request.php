@@ -5,23 +5,35 @@ namespace Core\Request;
 class Request
 {
     private $uri;
-    private $uriParams;
-    private $queryParams;
+    private $httpMethod;
+    private $inputs = [];
+    private $queryParams = [];
 
     public function __construct()
     {
         $this->uri = $_SERVER["REQUEST_URI"];
-        $this->setInputParams();
+        $this->httpMethod = $_SERVER["REQUEST_METHOD"];
         $this->setDefaultHeaders();
     }
 
-    private function setDefaultHeaders(){
+    private function setDefaultHeaders(): void
+    {
         header('Content-Type: application/json');
     }
 
-    private function setUriParams($params): void
+    private function getRequestMethod(): string
     {
-        $this->uriParams = $params;
+        return strtolower($this->httpMethod);
+    }
+
+    private function getUri(): string
+    {
+        return $this->uri;
+    }
+
+    private function setInputs($params): void
+    {
+        $this->inputs = $params;
     }
 
     private function setQueryParams($queryParams): void
@@ -29,17 +41,11 @@ class Request
         $this->queryParams = $queryParams;
     }
 
-    private function getUri(){
-        return $this->uri;
-    }
 
-    private function setInputParams(){
-
-    }
-
-    public function getUriParams(): array
+    //these apis are available to public scope
+    public function getInputs(): array
     {
-        return $this->uriParams;
+        return $this->inputs;
     }
 
     public function getQueryPrams(): array
@@ -49,10 +55,10 @@ class Request
 
     public function all(): array
     {
-        return array_merge($this->uriParams, $this->queryParams);
+        return array_merge($this->inputs, $this->queryParams);
     }
 
-    public function input($key)
+    public function input($key): mixed
     {
         $allParams = $this->all();
         return isset($allParams[$key])? $allParams[$key] : null;

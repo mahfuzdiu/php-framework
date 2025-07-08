@@ -1,6 +1,7 @@
 <?php
 namespace Core;
 
+use Core\Request\RequestHandler;
 use DI\Container;
 
 class Router
@@ -8,7 +9,7 @@ class Router
     private array $allowedHttpMethods = ["get", "post", "put", "patch", "delete"];
     private $routes;
 
-    public function __call(string $routerMethod, array $arguments)
+    public function __call(string $routerMethod, array $arguments): void
     {
         if(!in_array($routerMethod, $this->allowedHttpMethods)){
             throw new \Exception($routerMethod . " is not allowed in route");
@@ -22,7 +23,7 @@ class Router
         ];
     }
 
-    public function getMatchedRoute(string $uri): ?array
+    public function getMatchedRoute(RequestHandler $requestHandler, string $uri): ?array
     {
         foreach ($this->routes as $route){
             $url = parse_url($uri, PHP_URL_PATH);
@@ -30,13 +31,9 @@ class Router
 
             $urlParts = explode("/", trim($url, "/"));
             parse_str($query, $queryParams);
-
             $routeParts = explode("/", trim($route["path"], "/"));
 
-
-            //basic match
-            //todo: update to strong route matching validation. 1.same count but two different route
-            if(count($routeParts) == count($urlParts)){
+            if($this->checkRouteMatch($routeParts, $urlParts)){
                 $params = [];
                 foreach ($routeParts as $key => $param){
                     if(preg_match("/^{([a-zA-Z]+)}$/", $param, $matches)){
@@ -46,6 +43,10 @@ class Router
 
                 $route["params"] = $params;
                 $route["query_params"] = $queryParams;
+
+                //set input data/params to Request::class before method execution
+                $requestHandler->setInputDataInRequestClass($route);
+
                 return $route;
             }
         }
@@ -54,4 +55,26 @@ class Router
     }
 
 
+    /**
+     * check if route is a exact match
+     * @param $routeParts
+     * @param $urlParts
+     * @return bool
+     */
+    private function checkRouteMatch($routeParts, $urlParts): bool
+    {
+        if(count($routeParts) != count($urlParts)){
+            return false;
+        }
+
+        foreach ($routeParts as $key => $part){
+            if(preg_match("/^{([a-zA-Z]+)}$/", $part, $matches)){
+                continue;
+            } else if($part != $urlParts[$key]){
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

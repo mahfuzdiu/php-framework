@@ -4,17 +4,15 @@
 namespace Core;
 
 
+use Core\Request\RequestHandler;
 use Psr\Container\ContainerInterface;
 
 class Dispatcher
 {
     //ContainerInterface $container: automatically give a Container instance
-    public function __construct(private ContainerInterface $container)
-    {
+    public function __construct(private ContainerInterface $container){}
 
-    }
-
-    public function dispatch($matchedRoute)
+    public function dispatch($matchedRoute): mixed
     {
         if(is_null($matchedRoute)){
             throw new \Exception("Route not found");

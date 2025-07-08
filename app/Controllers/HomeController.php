@@ -10,11 +10,7 @@ class HomeController
     public function home(){
         return [
             "route" => "/",
-            "method" => "home"
+            "message" => "welcome home",
         ];
-    }
-
-    public function getPrice(){
-        return 100;
     }
 }
