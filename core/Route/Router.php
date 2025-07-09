@@ -1,5 +1,5 @@
 <?php
-namespace Core;
+namespace Core\Route;
 
 use Core\Request\RequestHandler;
 use DI\Container;
@@ -8,19 +8,16 @@ class Router
 {
     private array $allowedHttpMethods = ["get", "post", "put", "patch", "delete"];
     private $routes;
+    private $middlewares;
 
-    public function __call(string $routerMethod, array $arguments): void
+    public function __call(string $routerMethod, array $arguments): Router
     {
         if(!in_array($routerMethod, $this->allowedHttpMethods)){
             throw new \Exception($routerMethod . " is not allowed in route");
         }
 
-        $this->routes[] = [
-            "http_method" => $routerMethod,
-            "path" => $arguments[0],
-            "controller" => $arguments[1][0],
-            "controller_method" => $arguments[1][1],
-        ];
+        $this->routes[] = (new RouteDefinition($routerMethod,  $arguments[0], $arguments[1][0], $arguments[1][1]))->toArray();
+        return $this;
     }
 
     public function getMatchedRoute(RequestHandler $requestHandler, string $uri): ?array
@@ -31,7 +28,7 @@ class Router
 
             $urlParts = explode("/", trim($url, "/"));
             parse_str($query, $queryParams);
-            $routeParts = explode("/", trim($route["path"], "/"));
+            $routeParts = explode("/", $route["path"]);
 
             if($this->checkRouteMatch($routeParts, $urlParts)){
                 $params = [];
@@ -76,5 +73,14 @@ class Router
         }
 
         return true;
+    }
+
+    public function group(array $middlewares, \Closure $closure){
+        $this->middlewares = $middlewares;
+        $closure();
+    }
+
+    public function middleware($routeMiddleware){
+        $this->routes[count($this->routes) - 1]["middleware"] = $routeMiddleware;
     }
 }

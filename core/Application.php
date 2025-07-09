@@ -1,9 +1,8 @@
 <?php
 namespace Core;
 
-use Core\Request\Request;
 use Core\Request\RequestHandler;
-use DI\Container;
+use Core\Route\Router;
 
 class Application
 {

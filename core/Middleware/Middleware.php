@@ -1,5 +1,5 @@
 <?php
-namespace Core;
+namespace Core\Middleware;
 
 class Middleware
 {

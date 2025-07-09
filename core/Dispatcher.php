@@ -14,9 +14,15 @@ class Dispatcher
 
     public function dispatch($matchedRoute): mixed
     {
+        //todo: seperate route matching validation class
         if(is_null($matchedRoute)){
             throw new \Exception("Route not found");
         }
+
+        //todo: middleware validation
+
+
+        //todo: seperate controller and method validation class
 
         $reflection  = new \ReflectionClass($matchedRoute["controller"]);
         if(!$reflection->isInstantiable() || !$reflection->hasMethod($matchedRoute["controller_method"])){
@@ -47,5 +53,4 @@ class Dispatcher
 
         return $orderedParams;
     }
-
 }
