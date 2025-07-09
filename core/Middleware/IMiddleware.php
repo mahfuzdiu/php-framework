@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Core\Middleware;
 
-
-use Core\Request\RequestHandler;
+use Core\Request\Request;
 
 interface IMiddleware
 {
-    public function next(RequestHandler $requestHandler): bool;
+    public function next(Request $request): bool;
 }
