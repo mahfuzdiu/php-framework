@@ -4,13 +4,14 @@
 namespace Core;
 
 
+use Core\Middleware\Middleware;
 use Core\Request\RequestHandler;
 use Psr\Container\ContainerInterface;
 
 class Dispatcher
 {
     //ContainerInterface $container: automatically give a Container instance
-    public function __construct(private ContainerInterface $container){}
+    public function __construct(private ContainerInterface $container, private Middleware $middleware){}
 
     public function dispatch($matchedRoute): mixed
     {
@@ -20,6 +21,7 @@ class Dispatcher
         }
 
         //todo: middleware validation
+        $this->middleware->checkMiddlewareValidation($matchedRoute["middlewares"]);
 
 
         //todo: seperate controller and method validation class

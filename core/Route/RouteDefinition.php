@@ -9,7 +9,7 @@ class RouteDefinition
         private $path,
         private $controller,
         private $controllerMethod,
-        private $middleware = null
+        private $middlewares = []
     ){}
 
     public function toArray(): array
@@ -19,7 +19,7 @@ class RouteDefinition
             "path" => trim($this->path, "/"),
             "controller" => $this->controller,
             "controller_method" => $this->controllerMethod,
-            "middleware" => $this->middleware
+            "middlewares" => $this->middlewares
         ];
     }
 }

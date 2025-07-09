@@ -9,7 +9,7 @@ use Core\Request\RequestHandler;
 
 class RouteMiddleware implements IMiddleware
 {
-    public function handle(RequestHandler $requestHandler): bool
+    public function next(RequestHandler $requestHandler): bool
     {
         // TODO: Implement handle() method.
         return true;

@@ -2,11 +2,11 @@
 namespace App\Middlewares;
 
 use Core\Middleware\IMiddleware;
-use Core\Middleware\Middleware;
+use Core\Request\RequestHandler;
 
-class ExampleMiddleware extends Middleware implements IMiddleware
+class ExampleMiddleware implements IMiddleware
 {
-    public function handle(\Core\Request\RequestHandler $requestHandler): bool
+    public function next(RequestHandler $requestHandler): bool
     {
         // TODO: Implement handle() method.
         return true;

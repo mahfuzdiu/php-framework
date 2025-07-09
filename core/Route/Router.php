@@ -8,7 +8,7 @@ class Router
 {
     private array $allowedHttpMethods = ["get", "post", "put", "patch", "delete"];
     private $routes;
-    private $middlewares;
+    private array $middlewares = [];
 
     public function __call(string $routerMethod, array $arguments): Router
     {
@@ -16,7 +16,7 @@ class Router
             throw new \Exception($routerMethod . " is not allowed in route");
         }
 
-        $this->routes[] = (new RouteDefinition($routerMethod,  $arguments[0], $arguments[1][0], $arguments[1][1]))->toArray();
+        $this->routes[] = (new RouteDefinition($routerMethod,  $arguments[0], $arguments[1][0], $arguments[1][1], $this->middlewares))->toArray();
         return $this;
     }
 
@@ -81,6 +81,6 @@ class Router
     }
 
     public function middleware($routeMiddleware){
-        $this->routes[count($this->routes) - 1]["middleware"] = $routeMiddleware;
+        $this->routes[count($this->routes) - 1]["middlewares"][] = $routeMiddleware;
     }
 }
