@@ -8,6 +8,16 @@ class RequestHandler
 {
     public function __construct(private Request $request){}
 
+    public function getInputs(): array
+    {
+        return $this->request->getInputs();
+    }
+
+    public function getAll(): array
+    {
+        return $this->request->all();
+    }
+
     //todo: handle other http requests
     public function setInputDataInRequestClass($matchedRoute): void
     {

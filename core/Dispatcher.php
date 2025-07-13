@@ -5,7 +5,6 @@ namespace Core;
 
 
 use Core\Middleware\Middleware;
-use Core\Request\RequestHandler;
 use Psr\Container\ContainerInterface;
 
 class Dispatcher
@@ -20,7 +19,7 @@ class Dispatcher
             throw new \Exception("Route not found");
         }
 
-        //todo: middleware validation
+        //middleware validation
         $this->middleware->checkMiddlewareValidation($matchedRoute["middlewares"]);
 
 
