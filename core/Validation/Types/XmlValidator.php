@@ -1,9 +1,9 @@
 <?php
 namespace Core\Validation\Types;
 
-use Core\Validation\IRequestValidation;
+use Core\Validation\ICustomRules;
 
-class XmlValidator implements IRequestValidation
+class XmlValidator implements ICustomRules
 {
     public function validationLogic(): bool
     {

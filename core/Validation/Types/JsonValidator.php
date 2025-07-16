@@ -1,9 +1,7 @@
 <?php
 namespace Core\Validation\Types;
 
-use Core\Validation\IRequestValidation;
-
-class JsonValidator implements IRequestValidation
+class JsonValidator
 {
     public function validationLogic(): bool
     {

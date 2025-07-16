@@ -13,9 +13,8 @@ class ExampleValidation extends RequestValidation
     protected function rules(): array
     {
         return [
-            "id" => ["numeric"],
-            "price" => ["decimal"],
-            "category" => ["text", "uppercase"]
+            "id" => "max:10|numericVal",
+            "sort" => "alpha"
         ];
     }
 
