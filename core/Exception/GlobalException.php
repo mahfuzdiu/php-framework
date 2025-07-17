@@ -9,6 +9,8 @@ use Throwable;
 
 class GlobalException
 {
+    const DEFAULT_EXCEPTION_ERROR_CODE = 500;
+
     public function __construct(private Response $response){}
 
     public function registerErrorHandler(): void
@@ -20,13 +22,16 @@ class GlobalException
 
     public function handleException(Throwable $exception): void
     {
-        $errors = json_decode($exception->getMessage(), true);
+        $errorMessageHandler = new ErrorMessageHandler();
+        $errors = json_decode($errorMessageHandler->getErrorMessage($exception), true);
+        $statusCode = $exception->getCode() ?: self::DEFAULT_EXCEPTION_ERROR_CODE;
+
         if(is_array($errors)){
-            $this->response->jsonResponse($errors);
+            $this->response->jsonResponse($errors, $statusCode);
             exit;
         }
 
-        $this->response->jsonResponse($exception->getMessage());
+        $this->response->jsonResponse($errorMessageHandler->getErrorMessage($exception), $statusCode);
         exit;
     }
 
@@ -40,6 +45,7 @@ class GlobalException
         if (in_array($errno, $fatalErrorTypes)) {
             return false;
         }
+
         throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
 
