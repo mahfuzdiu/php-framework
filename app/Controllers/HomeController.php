@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use Core\Log;
 use Core\Request;
 
 class HomeController

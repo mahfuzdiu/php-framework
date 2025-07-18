@@ -1,5 +1,5 @@
 <?php
-namespace App\Validation;
+namespace App\Validations;
 
 use Core\Request\RequestHandler;
 use Core\Validation\RequestValidation;

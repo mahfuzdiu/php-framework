@@ -13,6 +13,9 @@ class GlobalException
 
     public function __construct(private Response $response){}
 
+    /**
+     *registers handler for exception and errors
+     */
     public function registerErrorHandler(): void
     {
         set_exception_handler([$this, 'handleException']);
@@ -23,15 +26,18 @@ class GlobalException
     public function handleException(Throwable $exception): void
     {
         $errorMessageHandler = new ErrorMessageHandler();
-        $errors = json_decode($errorMessageHandler->getErrorMessage($exception), true);
         $statusCode = $exception->getCode() ?: self::DEFAULT_EXCEPTION_ERROR_CODE;
+        $errors = [
+            "message" => json_decode($errorMessageHandler->getErrorMessage($exception), true),
+            "file" => $exception->getFile(),
+            "line" =>  $exception->getLine()
+        ];
 
-        if(is_array($errors)){
-            $this->response->jsonResponse($errors, $statusCode);
-            exit;
+        if(!is_array($errors["message"])){
+            $errors["message"] = $errorMessageHandler->getErrorMessage($exception);
         }
 
-        $this->response->jsonResponse($errorMessageHandler->getErrorMessage($exception), $statusCode);
+        $this->response->jsonResponse($errors, $statusCode);
         exit;
     }
 

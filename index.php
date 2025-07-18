@@ -1,13 +1,8 @@
 <?php
+
 require 'vendor/autoload.php';
 
-use Core\Application;
-use Core\Exception\GlobalException;
+use Core\BootContainer;
 
-
-$container = new DI\Container();
-$globalExceptionHandler = $container->get(GlobalException::class);
-$globalExceptionHandler->registerErrorHandler();
-
-$app = $container->get(Application::class);
-$app->boot();
+$app = BootContainer::boot();
+$app->load();

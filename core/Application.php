@@ -13,7 +13,7 @@ class Application
         private Response $response
     ){}
 
-    public function boot(): void
+    public function load(): void
     {
         $this->loadRoutes();
         $matchedRoute = $this->router->getMatchedRoute($this->requestHandler, $this->requestHandler->getRequestUri());

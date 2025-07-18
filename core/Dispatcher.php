@@ -32,7 +32,7 @@ class Dispatcher
 
         $reflectionMethod = $reflection->getMethod($matchedRoute["controller_method"]);
         $reflectionMethodArguments = $reflectionMethod->getParameters();
-        return call_user_func_array([$reflection->newInstance(), $matchedRoute["controller_method"]], $this->resolveMethodArguments($reflectionMethodArguments, $matchedRoute["params"]));
+        return call_user_func_array([$this->container->get($matchedRoute["controller"]), $matchedRoute["controller_method"]], $this->resolveMethodArguments($reflectionMethodArguments, $matchedRoute["params"]));
     }
 
     private function resolveMethodArguments($methodArguments, $routeParams): array
