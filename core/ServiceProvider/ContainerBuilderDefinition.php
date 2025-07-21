@@ -18,6 +18,12 @@ class ContainerBuilderDefinition
      */
     public function getDefinition(): array
     {
+        if ($this->instance instanceof \Closure){
+            return [
+                $this->class => $this->instance
+            ];
+        }
+
         return [
             $this->class => function () {
                 return $this->instance;

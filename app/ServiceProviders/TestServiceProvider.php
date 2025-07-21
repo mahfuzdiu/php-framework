@@ -2,7 +2,7 @@
 
 namespace App\ServiceProviders;
 
-use App\Service\TestService;
+use App\Services\TestService;
 use Core\ServiceProvider\ContainerBuilderDefinition;
 use Core\ServiceProvider\IServiceProviderRegister;
 use DI\ContainerBuilder;
