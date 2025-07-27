@@ -25,6 +25,6 @@ class Application
     }
 
     private function loadRoutes(){
-        require_once __DIR__ . "/../routes.php";
+        require_once __DIR__ . "/../route/routes.php";
     }
 }
