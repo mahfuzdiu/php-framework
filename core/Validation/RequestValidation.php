@@ -2,6 +2,7 @@
 
 namespace Core\Validation;
 
+use Core\Request\Request;
 use Core\Request\RequestHandler;
 use Respect\Validation\Validator as Validator;
 use Respect\Validation\Exceptions\ValidationException;
@@ -14,7 +15,7 @@ abstract class RequestValidation
     abstract protected function rules();
     abstract protected function validated();
 
-    public function __construct(private RequestHandler $requestHandler)
+    public function __construct(private Request $request)
     {
         $this->validateInputs();
     }
@@ -26,7 +27,7 @@ abstract class RequestValidation
     private function validateInputs(): void
     {
         $rules = $this->rules();
-        $inputs = $this->requestHandler->getAll();
+        $inputs = $this->request->all();
         $keysOfInputs = array_keys($inputs);
 
         foreach ($rules as $key => $ruleChain) {

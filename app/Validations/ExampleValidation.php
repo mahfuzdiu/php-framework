@@ -1,13 +1,13 @@
 <?php
 namespace App\Validations;
 
-use Core\Request\RequestHandler;
+use Core\Request\Request;
 use Core\Validation\RequestValidation;
 
 class ExampleValidation extends RequestValidation
 {
-    public function __construct(private RequestHandler $requestHandler){
-        parent::__construct($this->requestHandler);
+    public function __construct(private Request $request){
+        parent::__construct($this->request);
     }
 
     protected function rules(): array

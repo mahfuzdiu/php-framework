@@ -19,6 +19,11 @@ class UserController
         return $this->userService->getUser($request->input("id"));
     }
 
+    /**
+     * @param Request $request
+     * @param UserValidation $userValidation
+     * @return \App\Models\User
+     */
     public function addUser(Request $request, UserValidation $userValidation)
     {
         $data = $userValidation->validated();
