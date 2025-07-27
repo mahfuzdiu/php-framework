@@ -20,7 +20,6 @@ final class BootContainer
         //to catch early exception before app load with all dependency resolved
         $minimalContainerBuilder = new ContainerBuilder();
         $minimalContainerBuilder->addDefinitions([
-                Response::class => \DI\create(Response::class),
                 GlobalException::class => \DI\autowire(GlobalException::class)
             ]
         );

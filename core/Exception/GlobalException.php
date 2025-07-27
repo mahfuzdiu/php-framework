@@ -11,8 +11,6 @@ class GlobalException
 {
     const DEFAULT_EXCEPTION_ERROR_CODE = 500;
 
-    public function __construct(private Response $response){}
-
     /**
      *registers handler for exception and errors
      */
@@ -23,6 +21,9 @@ class GlobalException
         register_shutdown_function([$this, 'handleShutdown']);
     }
 
+    /**
+     * @param Throwable $exception
+     */
     public function handleException(Throwable $exception): void
     {
         $errorMessageHandler = new ErrorMessageHandler();
@@ -37,10 +38,21 @@ class GlobalException
             $errors["message"] = $errorMessageHandler->getErrorMessage($exception);
         }
 
-        $this->response->jsonResponse($errors, $statusCode);
+        echo json_encode([
+            "status" => $statusCode,
+            "data" => $errors
+        ]);
         exit;
     }
 
+    /**
+     * @param int $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param int $errline
+     * @return bool
+     * @throws ErrorException
+     */
     public function handleError(int $errno, string $errstr, string $errfile, int $errline): bool
     {
         if (!(error_reporting() & $errno)) {
@@ -55,6 +67,9 @@ class GlobalException
         throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
 
+    /**
+     * @throws ErrorException
+     */
     public function handleShutdown(): void
     {
         $error = error_get_last();

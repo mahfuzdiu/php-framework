@@ -7,7 +7,9 @@
     "php-di/php-di": "^7.0",
     "respect/validation": "^2.4",
     "doctrine/orm": "^3.5",
-    "symfony/cache": "^6.4"
+    "symfony/cache": "^6.4",
+    "symfony/serializer": "^6.4",
+    "symfony/property-access": "^6.4"
   },
   "autoload": {
     "psr-4": {
