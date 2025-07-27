@@ -27,7 +27,7 @@ class Router
             $query = parse_url($uri, PHP_URL_QUERY);
 
             $urlParts = explode("/", trim($url, "/"));
-            parse_str($query, $queryParams);
+            parse_str($query ?? "", $queryParams);
             $routeParts = explode("/", $route["path"]);
 
             if($this->checkRouteMatch($routeParts, $urlParts)){
