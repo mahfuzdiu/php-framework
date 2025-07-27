@@ -306,7 +306,7 @@ class UserRepository extends EntityRepository
 }
 ```
 
-###8. Service Container & Provider
+### 8. Service Container & Provider
 
 #### Service Container (Dependency Injection Container)
 This framework uses [PHP-DI](https://php-di.org/), a modern and powerful dependency injection container for PHP. It provides autowiring, configuration-based bindings, and constructor injection, allowing services and dependencies to be resolved automatically with minimal boilerplate.
