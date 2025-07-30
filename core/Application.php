@@ -4,6 +4,7 @@ namespace Core;
 
 use Core\Request\RequestHandler;
 use Core\Route\Router;
+use Dotenv\Dotenv;
 
 class Application
 {
@@ -12,21 +13,20 @@ class Application
         private Router $router,
         private Dispatcher $dispatcher,
         private Response $response
-    ) {
-    }
+    ) {}
 
     public function load(): void
     {
         $this->loadRoutes();
         $matchedRoute = $this->router->getMatchedRoute($this->requestHandler, $this->requestHandler->getRequestUri());
-
-        //middleware
-
         $result = $this->dispatcher->dispatch($matchedRoute);
         $this->response->jsonResponse($result);
     }
 
-    private function loadRoutes()
+    /**
+     * loads routes
+     */
+    private function loadRoutes(): void
     {
         require_once __DIR__ . "/../route/routes.php";
     }

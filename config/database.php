@@ -5,20 +5,21 @@ return [
     "drivers" => [
         "pdo_mysql" => [
             'driver'   => 'pdo_mysql',
-            'user'     => 'root',
-            'password' => '',
-            'dbname'   => 'mvc',
-            'host'     => '127.0.0.1',
-            'port'     => 3306,
-            'charset'  => 'utf8mb4'
+            'dbname'   => $_ENV["DB_DATABASE"],
+            'user'     => $_ENV["DB_USERNAME"],
+            'password' => $_ENV["DB_PASSWORD"],
+            'host'     => $_ENV["DB_HOST"] ?? "127.0.0.1",
+            'port'     => $_ENV["DB_PORT"] ?? 3306,
+            'charset'  => $_ENV["DB_CHARSET"] ?? 'utf8mb4'
         ],
         "pdo_pgsql" => [
             'driver'   => 'pdo_pgsql',
-            'user'     => 'your_pg_user',
-            'password' => 'your_pg_password',
-            'dbname'   => 'your_pg_database',
-            'host'     => '127.0.0.1',
-            'port'     => 5432, // ✅ Default PostgreSQL port
+            'dbname'   => $_ENV["DB_DATABASE"],
+            'user'     => $_ENV["DB_USERNAME"],
+            'password' => $_ENV["DB_PASSWORD"],
+            'host'     => $_ENV["DB_HOST"] ?? "127.0.0.1",
+            'port'     => $_ENV["DB_PORT"] ?? 5432,
+            'charset'  => $_ENV["DB_CHARSET"] ?? 'utf8mb4'
         ]
     ]
 ];
