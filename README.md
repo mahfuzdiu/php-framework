@@ -20,7 +20,7 @@ This framework can serve as a learning tool, a skeleton for future projects, or 
 - ✅ Request Validation
 - ✅ Doctrine ORM (v3.5) Integration
 - ✅ Service Provider Registration System
-- ✅ Config & Environment Loader (TBC)
+- ✅ Environment load support for config file
 - ✅ Custom Exception Handler & JSON Response Builder
 - ✅ Layered Architecture (Controller → Service → Repository → Entity)
 - ✅ PHPUnit-ready Structure
