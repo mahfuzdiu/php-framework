@@ -4,7 +4,6 @@ namespace Core;
 
 use Core\Request\RequestHandler;
 use Core\Route\Router;
-use Dotenv\Dotenv;
 
 class Application
 {
@@ -13,13 +12,14 @@ class Application
         private Router $router,
         private Dispatcher $dispatcher,
         private Response $response
-    ) {}
+    ) {
+    }
 
     public function load(): void
     {
         $this->loadRoutes();
         $matchedRoute = $this->router->getMatchedRoute($this->requestHandler, $this->requestHandler->getRequestUri());
-        $result = $this->dispatcher->dispatch($matchedRoute);
+        $result       = $this->dispatcher->dispatch($matchedRoute);
         $this->response->jsonResponse($result);
     }
 
