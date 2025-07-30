@@ -13,6 +13,6 @@ class EntityManagerServiceProvider implements IServiceProviderRegister
     {
         return new ContainerBuilderDefinition(EntityManager::class, function (Doctrine $doctrine) {
             return $doctrine->getEntityManager();
-        } );
+        });
     }
 }

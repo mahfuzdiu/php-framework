@@ -1,12 +1,40 @@
-name: Code Style
+name: CI/CD Pipeline
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master:
+      - dev:
+  pull_request:
+    branches:
+      - master:
+      - dev:
 
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
     steps:
       - usage: actions/checkout@v3
-      - name: Install PHP & dependencies
-        run: composer install
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+          with:
+            php-version: 8.1
+
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist
+
       -name: Run PHP-CS-Fixer
+       run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
+#  deploy:
+#    needs: build-and-test
+#    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      # Add deployment commands here
+#      - name: Deploy to production server
+#        run: |
+#          ssh user@yourserver "cd /var/www/yourapp && git pull origin main && ./deploy-script.sh"

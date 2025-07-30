@@ -9,7 +9,7 @@ class ContainerBuilderDefinition
 
     public function __construct(string $class, object $instance)
     {
-        $this->class = $class;
+        $this->class    = $class;
         $this->instance = $instance;
     }
 
@@ -18,7 +18,7 @@ class ContainerBuilderDefinition
      */
     public function getDefinition(): array
     {
-        if ($this->instance instanceof \Closure){
+        if ($this->instance instanceof \Closure) {
             return [
                 $this->class => $this->instance
             ];

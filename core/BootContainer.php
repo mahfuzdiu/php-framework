@@ -4,7 +4,6 @@ namespace Core;
 
 use Core\Exception\GlobalException;
 use Core\ServiceProvider\ServiceProviderRegister;
-use DI\Container;
 use DI\ContainerBuilder;
 
 final class BootContainer
@@ -19,7 +18,8 @@ final class BootContainer
     {
         //to catch early exception before app load with all dependency resolved
         $minimalContainerBuilder = new ContainerBuilder();
-        $minimalContainerBuilder->addDefinitions([
+        $minimalContainerBuilder->addDefinitions(
+            [
                 GlobalException::class => \DI\autowire(GlobalException::class)
             ]
         );

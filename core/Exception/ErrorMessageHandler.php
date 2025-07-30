@@ -9,10 +9,10 @@ class ErrorMessageHandler
 {
     public function getErrorMessage(Throwable $throwable): string
     {
-        return match (get_class($throwable)){
+        return match (get_class($throwable)) {
             RouteNotFoundException::class => "Route Not Found",
-            DbConnectionFailure::class => "Error establishing a database connection",
-            default => $throwable->getMessage()
+            DbConnectionFailure::class    => "Error establishing a database connection",
+            default                       => $throwable->getMessage()
         };
     }
 }

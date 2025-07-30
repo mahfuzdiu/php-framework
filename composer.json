@@ -14,8 +14,7 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Core\\": "core/",
-      "Doctrine\\": "doctrine/"
+      "Core\\": "core/"
     }
   },
   "autoload-dev": {
@@ -24,8 +23,13 @@
     }
   },
   "scripts": {
-    "test": "phpunit"
+    "test": "phpunit",
+    "cs-fix": "php vendor/bin/php-cs-fixer fix",
+    "cs-check": "php vendor/bin/php-cs-fixer fix --dry-run --diff"
   },
   "minimum-stability": "stable",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.85"
+  }
 }

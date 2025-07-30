@@ -1,4 +1,5 @@
 <?php
+
 namespace Core;
 
 use Core\Request\RequestHandler;
@@ -11,7 +12,8 @@ class Application
         private Router $router,
         private Dispatcher $dispatcher,
         private Response $response
-    ){}
+    ) {
+    }
 
     public function load(): void
     {
@@ -24,7 +26,8 @@ class Application
         $this->response->jsonResponse($result);
     }
 
-    private function loadRoutes(){
+    private function loadRoutes()
+    {
         require_once __DIR__ . "/../route/routes.php";
     }
 }

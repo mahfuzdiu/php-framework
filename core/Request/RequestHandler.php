@@ -1,12 +1,12 @@
 <?php
 
-
 namespace Core\Request;
-
 
 class RequestHandler
 {
-    public function __construct(private Request $request){}
+    public function __construct(private Request $request)
+    {
+    }
 
     public function getInputs(): array
     {
@@ -21,27 +21,27 @@ class RequestHandler
     //todo: handle other http requests
     public function setInputDataInRequestClass($matchedRoute): void
     {
-        if ($this->getHttpRequestMethod() == "get"){
-            $this->closure(function ($matchedRoute){ $this->setInputs($matchedRoute["params"]); }, $matchedRoute);
+        if ($this->getHttpRequestMethod() == "get") {
+            $this->closure(function ($matchedRoute) { $this->setInputs($matchedRoute["params"]); }, $matchedRoute);
 
-        } else if($this->getHttpRequestMethod() == "post"){
+        } elseif ($this->getHttpRequestMethod() == "post") {
             $inputs = json_decode(file_get_contents("php://input"), true);
-            $this->closure(function ($inputs){ $this->setInputs($inputs); }, $inputs);
+            $this->closure(function ($inputs) { $this->setInputs($inputs); }, $inputs);
         }
 
-        $this->closure(function ($matchedRoute){ $this->setQueryParams($matchedRoute["query_params"]); }, $matchedRoute);
+        $this->closure(function ($matchedRoute) { $this->setQueryParams($matchedRoute["query_params"]); }, $matchedRoute);
     }
 
     public function getRequestUri(): string
     {
-        return $this->closure(function (){
+        return $this->closure(function () {
             return $this->getUri();
         });
     }
 
     public function getHttpRequestMethod(): string
     {
-        return $this->closure(function (){
+        return $this->closure(function () {
             return $this->getRequestMethod();
         });
     }

@@ -1,6 +1,6 @@
 <?php
-namespace Core\Route;
 
+namespace Core\Route;
 
 class RouteDefinition
 {
@@ -10,16 +10,17 @@ class RouteDefinition
         private $controller,
         private $controllerMethod,
         private $middlewares = []
-    ){}
+    ) {
+    }
 
     public function toArray(): array
     {
         return [
-            "http_method" => $this->routeMethod,
-            "path" => trim($this->path, "/"),
-            "controller" => $this->controller,
+            "http_method"       => $this->routeMethod,
+            "path"              => trim($this->path, "/"),
+            "controller"        => $this->controller,
             "controller_method" => $this->controllerMethod,
-            "middlewares" => $this->middlewares
+            "middlewares"       => $this->middlewares
         ];
     }
 }

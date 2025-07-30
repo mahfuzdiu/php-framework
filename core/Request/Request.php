@@ -6,12 +6,12 @@ class Request
 {
     private $uri;
     private $httpMethod;
-    private $inputs = [];
+    private $inputs      = [];
     private $queryParams = [];
 
     public function __construct()
     {
-        $this->uri = $_SERVER["REQUEST_URI"];
+        $this->uri        = $_SERVER["REQUEST_URI"];
         $this->httpMethod = $_SERVER["REQUEST_METHOD"];
         $this->setDefaultHeaders();
     }
@@ -61,6 +61,6 @@ class Request
     public function input($key): mixed
     {
         $allParams = $this->all();
-        return isset($allParams[$key])? $allParams[$key] : null;
+        return isset($allParams[$key]) ? $allParams[$key] : null;
     }
 }

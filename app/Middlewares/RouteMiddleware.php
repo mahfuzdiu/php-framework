@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Middlewares;
 
 use Core\Middleware\IMiddleware;
 use Core\Request\Request;
-use Core\Request\RequestHandler;
 
 class RouteMiddleware implements IMiddleware
 {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Core\Middleware;
 
 use Core\Request\Request;

@@ -12,7 +12,8 @@ class UserRepository extends EntityRepository
      * UserRepository constructor.
      * @param EntityManagerInterface $em
      */
-    public function __construct(private EntityManagerInterface $em){
+    public function __construct(private EntityManagerInterface $em)
+    {
         parent::__construct($em, $em->getClassMetadata(User::class));
     }
 

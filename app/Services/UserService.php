@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 class UserService
 {
@@ -12,7 +11,9 @@ class UserService
      * UserService constructor.
      * @param UserRepository $userRepository
      */
-    public function __construct(private UserRepository $userRepository){}
+    public function __construct(private UserRepository $userRepository)
+    {
+    }
 
     /**
      * @param $id

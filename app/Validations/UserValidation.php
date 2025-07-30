@@ -7,14 +7,15 @@ use Core\Validation\RequestValidation;
 
 class UserValidation extends RequestValidation
 {
-    public function __construct(private Request $request){
+    public function __construct(private Request $request)
+    {
         parent::__construct($this->request);
     }
 
     protected function rules(): array
     {
         return [
-            "name" => "alpha",
+            "name"  => "alpha",
             "email" => "email"
         ];
     }

@@ -2,14 +2,12 @@
 
 namespace Core\Exception;
 
-use Core\Request\Request;
-use Core\Response;
 use ErrorException;
 use Throwable;
 
 class GlobalException
 {
-    const DEFAULT_EXCEPTION_ERROR_CODE = 500;
+    public const DEFAULT_EXCEPTION_ERROR_CODE = 500;
 
     /**
      *registers handler for exception and errors
@@ -27,20 +25,20 @@ class GlobalException
     public function handleException(Throwable $exception): void
     {
         $errorMessageHandler = new ErrorMessageHandler();
-        $statusCode = $exception->getCode() ?: self::DEFAULT_EXCEPTION_ERROR_CODE;
-        $errors = [
+        $statusCode          = $exception->getCode() ?: self::DEFAULT_EXCEPTION_ERROR_CODE;
+        $errors              = [
             "message" => json_decode($errorMessageHandler->getErrorMessage($exception), true),
-            "file" => $exception->getFile(),
-            "line" =>  $exception->getLine()
+            "file"    => $exception->getFile(),
+            "line"    => $exception->getLine()
         ];
 
-        if(!is_array($errors["message"])){
+        if (!is_array($errors["message"])) {
             $errors["message"] = $errorMessageHandler->getErrorMessage($exception);
         }
 
         echo json_encode([
             "status" => $statusCode,
-            "data" => $errors
+            "data"   => $errors
         ]);
         exit;
     }

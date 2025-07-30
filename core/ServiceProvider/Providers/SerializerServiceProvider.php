@@ -15,7 +15,7 @@ class SerializerServiceProvider implements IServiceProviderRegister
     {
         return new ContainerBuilderDefinition(SerializerInterface::class, function () {
             $normalizers = [new ObjectNormalizer()];
-            $encoders = [new JsonEncoder()];
+            $encoders    = [new JsonEncoder()];
             return new Serializer($normalizers, $encoders);
         });
     }
