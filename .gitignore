@@ -1,6 +1,7 @@
 .idea
 vendor
 .env
-
+coverage-report
 # PHP-CS-Fixer
 .php-cs-fixer.cache
+.phpunit.result.cache

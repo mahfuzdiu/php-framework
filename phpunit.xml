@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php"
+         colors="true"
+         verbose="true"
+         stopOnFailure="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutCoversAnnotation="false"
+         testdox="false"
+>
+
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">app/</directory>
+        </include>
+        <report>
+            <html outputDirectory="coverage-report"/>
+        </report>
+        <exclude>
+            <directory>app/Repositories</directory>
+            <directory>app/Models</directory>
+            <directory>app/Validations</directory>
+            <directory>app/ServiceProviders</directory>
+            <directory>app/Middlewares</directory>
+        </exclude>
+    </coverage>
+
+<!--    <php>-->
+<!--        <env name="APP_ENV" value="testing"/>-->
+<!--        <env name="DB_CONNECTION" value="sqlite"/>-->
+<!--        <env name="DB_DATABASE" value=":memory:"/>-->
+<!--    </php>-->
+</phpunit>

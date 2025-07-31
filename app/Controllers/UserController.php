@@ -8,9 +8,7 @@ use Core\Request\Request;
 
 class UserController
 {
-    public function __construct(private UserService $userService)
-    {
-    }
+    public function __construct(private UserService $userService){}
 
     /**
      * @param Request $request
@@ -22,11 +20,10 @@ class UserController
     }
 
     /**
-     * @param Request $request
      * @param UserValidation $userValidation
      * @return \App\Models\User
      */
-    public function addUser(Request $request, UserValidation $userValidation)
+    public function addUser(UserValidation $userValidation)
     {
         $data = $userValidation->validated();
         return $this->userService->adduser($data);
