@@ -1,6 +1,6 @@
 # 🎯 PHP MVC Framework
 
-This is a lightweight, modular MVC framework built entirely from **scratch** using PHP 8.1+, inspired by the design principles of modern frameworks like **Laravel** and **Spring Boot**. It was designed as a **portfolio project** to demonstrate my deep understanding of PHP internals, clean architecture, service container patterns, and advanced concepts such as middleware pipelines, dependency injection, resolving classes using service container and Doctrine ORM (v3.5) integration.
+This is a lightweight, modular MVC framework built entirely from **scratch** using PHP 8.1+, inspired by the design principles of modern frameworks like **Laravel** and **Spring Boot**. It was designed as a **portfolio project** to demonstrate my deep understanding of PHP internals, clean architecture, service container patterns, and advanced concepts such as middleware pipelines, dependency injection, resolving classes using service container, Doctrine ORM (v3.5) integration and unit testing.
 
 As a backend developer with experience in both **PHP** and **Spring Boot**, I built this framework to:
 
