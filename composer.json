@@ -24,7 +24,7 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit",
+    "test": "vendor/bin/phpunit tests/Unit",
     "test:coverage": "vendor/bin/phpunit --coverage-text",
     "cs-fix": "php vendor/bin/php-cs-fixer fix",
     "cs-check": "php vendor/bin/php-cs-fixer fix --dry-run --diff"

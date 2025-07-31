@@ -394,7 +394,84 @@ return [
 ];
 ```
 
-### 10. 🔄 What’s Next
+### 10. Unit test support
+
+This framework comes with PHPUnit and Mockery integration out of the box, enabling you to write clean, isolated, and fast unit tests.
+
+#### 10.1 Setup
+
+Make sure dependencies are installed
+
+```
+composer instal
+```
+
+To enable test coverage make sure Xdebug is installed and enabled.
+
+#### 10.2 Running Tests
+
+To run all tests
+```angular2html
+composer test
+```
+
+To run specific test class check the given example
+
+```angular2html
+vendor/bin/phpunit tests/Unit/UserControllerTest.php
+```
+
+To run single test method
+```angular2html
+vendor/bin/phpunit --filter testMethodName tests/Unit/YourTestClassName.php
+```
+
+To generate html test coverage
+
+```angular2html
+composer test:coverage
+```
+
+#### 10.3 Features
+
+- Unit tests live under the /tests directory.
+- Supports Mockery for mocking services, repositories, or requests.
+- PHPUnit config in phpunit.xml.
+- Follows Laravel-style service testing: mock dependencies, test controllers, services, and middleware.
+
+### 11. Code Style – PHP CS Fixer
+
+This project uses PHP CS Fixer to maintain a consistent code style across the codebase. The config remain in the .php-cs-fixer.dist.php in root directory.
+
+````php
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__)
+    ->exclude('vendor');
+
+return (new PhpCsFixer\Config())
+    ->setRules([
+        '@PSR12' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'binary_operator_spaces' => ['default' => 'align_single_space_minimal'],
+        'blank_line_after_opening_tag' => true,
+        'no_unused_imports' => true,
+        'single_blank_line_at_eof' => true
+    ])
+    ->setFinder($finder)
+    ->setRiskyAllowed(true)
+    ->setUsingCache(true);
+````
+
+To fix cs-fixer related issue run the following command
+
+```angular2html
+composer cs-fix
+```
+
+### 12. 🔄 What’s Next
+
 - CLI Support (Artisan-style)
 - Caching (Redis)
 - Queue Worker (RabbitMQ)
