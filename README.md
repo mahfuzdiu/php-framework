@@ -32,7 +32,7 @@ This framework can serve as a learning tool, a skeleton for future projects, or 
 - **ORM:** Doctrine ORM v3.5
 - **Architecture:** MVC + Layered/Clean Code, PHP-DI
 - **Package Manager:** Composer
-- **Testing:** PHPUnit (TBC)
+- **Testing:** PHPUnit
 
 
 ## 🗂️ Folder Structure
