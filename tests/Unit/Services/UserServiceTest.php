@@ -28,7 +28,7 @@ class UserServiceTest extends TestCase
         $userRepositoryMock->shouldReceive("find")->with(1)->andReturn($this->userMock);
 
         $userService = new \App\Services\UserService($userRepositoryMock);
-        $actual = $userService->getUser(1);
+        $actual      = $userService->getUser(1);
         $this->assertEquals($this->userMock, $actual);
     }
 
@@ -38,7 +38,7 @@ class UserServiceTest extends TestCase
         $userRepositoryMock->shouldReceive("createUser")->with(["name" => "user_name", "email" => "user_name@gmail.com"])->andReturn($this->userMock);
 
         $userService = new \App\Services\UserService($userRepositoryMock);
-        $actual = $userService->addUser(["name" => "user_name", "email" => "user_name@gmail.com"]);
+        $actual      = $userService->addUser(["name" => "user_name", "email" => "user_name@gmail.com"]);
         $this->assertEquals($this->userMock, $actual);
     }
 
@@ -48,7 +48,7 @@ class UserServiceTest extends TestCase
         $userRepositoryMock->shouldReceive("findAll")->andReturn([$this->userMock]);
 
         $userService = new \App\Services\UserService($userRepositoryMock);
-        $actual = $userService->getUsers();
+        $actual      = $userService->getUsers();
         $this->assertEquals([$this->userMock], $actual);
     }
 }

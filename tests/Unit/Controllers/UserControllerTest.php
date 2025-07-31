@@ -31,7 +31,7 @@ class UserControllerTest extends TestCase
         $userServiceMock->shouldReceive("getUser")->with(1)->andReturn($this->userMock);
 
         $userController = new \App\Controllers\UserController($userServiceMock);
-        $actual = $userController->getUser($requestMock);
+        $actual         = $userController->getUser($requestMock);
 
         $this->assertEquals($this->userMock, $actual);
     }
@@ -45,7 +45,7 @@ class UserControllerTest extends TestCase
         $userServiceMock->shouldReceive("adduser")->andReturn($this->userMock);
 
         $userController = new \App\Controllers\UserController($userServiceMock);
-        $actual = $userController->addUser($userValidationMock);
+        $actual         = $userController->addUser($userValidationMock);
 
         $this->assertEquals($this->userMock->getName(), $actual->getName());
     }
@@ -56,7 +56,7 @@ class UserControllerTest extends TestCase
         $userServiceMock->shouldReceive("getUsers")->andReturn([$this->userMock]);
 
         $userController = new \App\Controllers\UserController($userServiceMock);
-        $actual = $userController->getUsers();
+        $actual         = $userController->getUsers();
 
         $this->assertEquals([$this->userMock], $actual);
     }

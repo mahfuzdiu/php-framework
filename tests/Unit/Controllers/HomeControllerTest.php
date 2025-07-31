@@ -8,7 +8,7 @@ class HomeControllerTest extends TestCase
     public function testHome(): void
     {
         $homeController = new HomeController();
-        $actual = $homeController->home();
+        $actual         = $homeController->home();
         $this->assertEquals("Welcome to home", $actual);
     }
 }

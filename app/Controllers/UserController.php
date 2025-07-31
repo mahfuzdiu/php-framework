@@ -8,7 +8,9 @@ use Core\Request\Request;
 
 class UserController
 {
-    public function __construct(private UserService $userService){}
+    public function __construct(private UserService $userService)
+    {
+    }
 
     /**
      * @param Request $request
