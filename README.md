@@ -34,6 +34,10 @@ This framework can serve as a learning tool, a skeleton for future projects, or 
 - **Package Manager:** Composer
 - **Testing:** PHPUnit
 
+## 📖 Internal Design Docs
+
+To learn how this framework is built, check the [Developer Docs](./doc/Architecture.md).
+
 
 ## 🗂️ Folder Structure
 
