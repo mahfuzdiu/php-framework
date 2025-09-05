@@ -65,19 +65,19 @@ Stay tuned for deeper insights into how each part of the framework is crafted an
 ## 🗂️ Folder Structure
 
 ```angular2html
-/App -> Application code
-    /Controllers -> Handles incoming request
-    /Repositories -> Works on accessing model
-    /Models -> Doctrine orm managed model
-    /Services -> handles logic separated from controller
-    /Service Providers -> Provides dependency resolving feature
-    /Validation -> Validates incoming request data and parameters
-    /Middleware -> Allows to add any logic before hitting controller
-/Core → Framework core (Router, DI, etc.)
-/public → Front controller (index.php)
-/route → Web routes
-/config → App configuration
-/tests → Unit tests
+├─ App - Application code
+├──── Controllers → Handles incoming request
+├──── Repositories → Works on accessing model
+├──── Models → Doctrine orm managed model
+├──── Services → handles logic separated from controller
+├──── Service Providers → Provides dependency resolving feature
+├──── Validation → Validates incoming request data and parameters
+├──── Middleware → Allows to add any logic before hitting controller
+├─ Core → Framework core (Router, DI, etc.)
+├─ public → Front controller (index.php)
+├─ route → Web routes
+├─ config → App configuration
+├─ tests → Unit tests
 ```
 
 ## 🚀 Installation
